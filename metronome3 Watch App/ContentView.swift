@@ -6,29 +6,26 @@
 //
 
 import SwiftUI
+import WatchKit
 
 struct ContentView: View {
+    @State private var isVibrating = false
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         VStack {
-            HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing:6){
-                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                Button{
-                    //ACTION
-                }label:{
-                    Image(systemName:"plus.circle")
-                        .font(.system(size: 42, weight: .semibold))
-                }
-                .fixedSize()
-                .buttonStyle(PlainButtonStyle())
-                .foregroundColor(.accentColor)
+            Text(isVibrating ? "振動中" : "停止中")
+            Button(action: {
+                isVibrating.toggle()
+            }) {
+                Text(isVibrating ? "停止" : "開始")
             }
-            Spacer()
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }//:VSTACK
-        .navigationTitle("TEST")
+        }
+        .onReceive(timer) { _ in
+            if isVibrating {
+                WKInterfaceDevice.current().play(.click)
+            }
+        }
     }
 }
 
