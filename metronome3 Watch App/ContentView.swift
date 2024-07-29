@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  metronome3 Watch App
 //
-//  Created by hironori on 2024/07/28.
+//  Created by hironori on 2024/07/29.
 //
 
 import SwiftUI
@@ -23,7 +23,11 @@ struct ContentView: View {
         }
         .onReceive(timer) { _ in
             if isVibrating {
-                WKInterfaceDevice.current().play(.click)
+                //WKInterfaceDevice.current().play(.click)
+                WKInterfaceDevice.current().play(.notification)
+
+
+
             }
         }
     }
